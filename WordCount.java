@@ -1,12 +1,13 @@
 import java.io.*;
 
-public class  WordCount{
-    private static void linecount(String fName, BufferedReader in) 
+public class  WordCount{	
+    private static long[] linecount(String fName, BufferedReader in,long tnumChar,long tnumWords,long tnumLine) 
 		throws IOException{
 		long numChar = 0;
 		long numLine=0;
 		long numWords = 0;
 		String line;
+		long[] countline=new long[3];
 		do{
 		    line = in.readLine();
 		    if (line != null){
@@ -14,22 +15,28 @@ public class  WordCount{
 				numWords += wordcount(line);
 				numLine++;
 		    }
-		}while(line != null);
+		}while(line != null);		
 		System.out.println("File Name: " + fName);
+		countline[0]=numChar;
+		countline[1]=numWords;
+		countline[2]=numLine;
 		System.out.println("Number of characters: " + numChar);
 		System.out.println("Number of words: " + numWords);
 		System.out.println("Number of Lines: " + numLine);
+		return countline;
     }
-    private static void linecount(String fileName){
+    private static long[] linecount(String fileName,long tnumChar,long tnumWords,long tnumLine){
 		BufferedReader in = null;
+		long[] countline=new long[3];
 		try{
 		    FileReader fileReader = new FileReader(fileName);
 		    in = new BufferedReader(fileReader);
-		    linecount(fileName,in);
+		    countline=linecount(fileName,in, tnumChar, tnumWords, tnumLine);
 		}
 		catch(IOException e){
 		    e.printStackTrace();
 		}
+		return countline;
     }
     private static long wordcount(String line){
 		long numWords = 0;
@@ -45,33 +52,44 @@ public class  WordCount{
 		}
 		return numWords;
     }
-    public static void main(String[] args){
-	long numChar = 0;
-	long numLine=0;
-	String line;
-	try{
-	    if (args.length == 0)
-		{
-		    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		    line = in.readLine();
-		    numChar = line.length();
-		    if (numChar != 0){
-				numLine=1;
+    public static void main(String[] args){	
+		String line;
+		long numChar=0;
+		long numLine=0; 
+		long tnumChar = 0;
+		long tnumWords=0;
+		long tnumLine=0;
+		long[][] countsArray= new long [7][3];	
+		long[] countline=new long[3];
+		try{
+		    if (args.length == 0)
+			{
+			    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+			    line = in.readLine();
+			    numChar = line.length();
+			    if (numChar != 0){
+					numLine=1;
+			    }
+			    System.out.println("Number of characters: " + numChar);
+			    System.out.println("Number of words: " + wordcount(line));
+			    System.out.println("Number of lines: " + numLine);
+			}else{
+				final long startTime = System.nanoTime();
+				for(int i = 0; i < args.length; i++){
+				    countline=linecount(args[i],tnumChar,tnumWords,tnumLine);
+				    countsArray[i]=countline;
+				}
+				System.out.println(countsArray);
+				System.out.println("Total Summary");
+				System.out.println("Number of characters: " + tnumChar);
+				System.out.println("Number of words: " + tnumWords);
+				System.out.println("Number of Lines: " + tnumLine);
+				final long duration = System.nanoTime() - startTime;
+				System.out.println("Time Employee: " + (duration/1000000)+ "ms");
 		    }
-		    System.out.println("Number of characters: " + numChar);
-		    System.out.println("Number of words: " + wordcount(line));
-		    System.out.println("Number of lines: " + numLine);
-		}else{
-			final long startTime = System.nanoTime();
-			for(int i = 0; i < args.length; i++){
-			    linecount(args[i]);
-			}
-			final long duration = System.nanoTime() - startTime;
-			System.out.println("Tiempo Empleado: " + String(duration));
-	    }
-	}
-	catch(IOException e){
-	    e.printStackTrace();
-	}
+		}
+		catch(IOException e){
+		    e.printStackTrace();
+		}
     }
 }
