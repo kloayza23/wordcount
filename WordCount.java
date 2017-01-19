@@ -1,6 +1,6 @@
 import java.io.*;
 
-public class  WordCount// implements Runnable
+public class  WordCount
 {	
 	private String[] args=new String[7];
     private static long[] linecount(String fName, BufferedReader in) 
@@ -90,9 +90,6 @@ public class  WordCount// implements Runnable
 				System.out.println("Number of characters: " + tnumChar);
 				System.out.println("Number of words: " + tnumWords);
 				System.out.println("Number of Lines: " + tnumLine);
-				/*WordCount obj=new WordCount(args);
-				Thread tobj =new Thread(obj);  
-     			tobj.start();  																*/
 				final long duration = System.nanoTime() - startTime;
 				System.out.println("Time Employee: " + (duration/1000000)+ "ms");
 		    }
@@ -101,20 +98,4 @@ public class  WordCount// implements Runnable
 		    e.printStackTrace();
 		}
     }
-    /*public void run(){  
-	    long tnumChar = 0;
-		long tnumWords=0;
-		long tnumLine=0;		
-		long[] countline=new long[3];
-		for(int i = 0; i < this.args.length; i++){					
-				    countline=linecount(args[i]);
-				    tnumChar+=countline[0];
-				    tnumWords+=countline[1];
-				    tnumLine+=countline[2];
-		}
-		System.out.println("Total Summary");
-		System.out.println("Number of characters: " + tnumChar);
-		System.out.println("Number of words: " + tnumWords);
-		System.out.println("Number of Lines: " + tnumLine);
-  	}*/   
 }
