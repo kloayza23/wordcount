@@ -72,7 +72,7 @@ public class  WordCountTheard{
 		}
 		return numWords;
     }
-	public static void main(String args[]){  
+	public static void main(String args[]) throws Exception{  
 		String line;
 		long numChar=0;
 		long numLine=0; 		
@@ -96,14 +96,16 @@ public class  WordCountTheard{
 				final long startTime = System.nanoTime();		
 				for(int i = 0; i < args.length; i++){					
 					Linecount obj=new Linecount(args[i]);  
-		    		Thread tobj =new Thread(obj);  		    		
-		    		//acum[i]=obj.countline;
-		    		tobj.start();		    				    		
+		    		Thread tobj =new Thread(obj);  		    				    		
+		    		tobj.start();	
+		    		tobj.sleep(1000);	    				    	
+		    		acum[i]=obj.countline;	
 				}    	
-				/*System.out.println("Total Summary");
+
+				System.out.println("Total Summary");
 				System.out.println("Number of characters: " + acum[0][0]);
 				System.out.println("Number of words: " + acum[1][0]);
-				System.out.println("Number of Lines: " + acum[2][0]);*/
+				System.out.println("Number of Lines: " + acum[2][0]);
 				final long duration = System.nanoTime() - startTime;
 				System.out.println("Time Employee: " + (duration/1000000)+ "ms");
 		    }
